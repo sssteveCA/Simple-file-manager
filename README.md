@@ -1,2 +1,2 @@
 # Simple-file-manager
-Semplice file manager realizzato in Java
+Simple file manager made in Java
