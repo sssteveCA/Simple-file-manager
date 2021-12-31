@@ -103,6 +103,7 @@ public class CustomFile extends File implements FileErrors{
 					}//while(line != null) {
 					content = sb.toString();
 					br.close();
+					fr.close();
 				}//if(this.canRead()) {
 				else
 					this.error = FILE_CANTREAD;	
@@ -133,6 +134,8 @@ public class CustomFile extends File implements FileErrors{
 						binC.add(fileC);
 					}
 					is.close();
+					bis.close();
+					fis.close();
 				}//if(this.canRead()) {
 				else
 					this.error = FILE_CANTREAD;	
@@ -198,6 +201,7 @@ public class CustomFile extends File implements FileErrors{
 			pw.print(text);
 			pw.append(System.lineSeparator());
 			pw.close();
+			fw.close();
 			ok = true;
 			
 		}//if(this.exists()) {
@@ -224,6 +228,8 @@ public class CustomFile extends File implements FileErrors{
 				os.write(buf);
 			}
 			os.close();
+			bos.close();
+			fos.close();
 			ok = true;
 		}
 		return ok;

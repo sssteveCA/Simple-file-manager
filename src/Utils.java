@@ -22,9 +22,36 @@ public class Utils {
 		System.out.println("H. Scrivi su un file binario");
 		System.out.println("I. Leggi il contenuto di una cartella");
 		System.out.println("J. Elimina una cartella e il suo contenuto");
+		System.out.println("K. Copia una cartella");
+		System.out.println("L. Sposta una cartella");
 		System.out.println("ESC. Esci dal programma");
 		System.out.println("");
 		System.out.print("Azione da eseguire => ");
+	}
+	
+	//copia una cartella
+	public static void copyDir(Scanner scan) {
+		System.out.println("");
+		System.out.print("Percorso sorgente => ");
+		String src = scan.next();
+		CustomDir ds = new CustomDir(src);
+		System.out.print("Percorso di destinazione => ");
+		String dest = "";
+		try {
+			dest = scan.next();
+			CustomDir dd = ds.copyDir(dest);
+			if(dd != null) {
+				System.out.println("La cartella è stata copiata");
+			}
+			else {
+				System.out.println("Errore durante la copia della cartella");
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		continua(scan);
+		
 	}
 	
 	//elimina una cartella

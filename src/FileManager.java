@@ -39,8 +39,11 @@ public class FileManager {
 			case "I": //Leggi il contenuto della cartella
 				Utils.readDir(scanner);
 				break;
-			case "J":
+			case "J": //Elimina una cartella
 				Utils.deleteDir(scanner);
+				break;
+			case "K":
+				Utils.copyDir(scanner);
 				break;
 			case "ESC":
 				scanner.close();
