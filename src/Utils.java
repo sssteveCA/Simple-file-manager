@@ -30,7 +30,7 @@ public class Utils {
 	}
 	
 	//copia una cartella
-	public static void copyDir(Scanner scan) {
+	public static void copyDir(Scanner scan) throws Exception {
 		System.out.println("");
 		System.out.print("Percorso sorgente => ");
 		String src = scan.next();
@@ -55,7 +55,7 @@ public class Utils {
 	}
 	
 	//elimina una cartella
-	public static void deleteDir(Scanner scan) {
+	public static void deleteDir(Scanner scan) throws Exception {
 		System.out.println("");
 		System.out.println("Cartella da cancellare => ");
 		String path = scan.next();
@@ -70,7 +70,7 @@ public class Utils {
 	}
 	
 	//elimina un file
-	public static void deleteFile(Scanner scan) {
+	public static void deleteFile(Scanner scan) throws Exception {
 		System.out.println("");
 		System.out.print("File da cancellare => ");
 		String path = scan.next();
@@ -85,7 +85,7 @@ public class Utils {
 	}
 	
 	//copia un file
-	public static void fileCopy(Scanner scan) {
+	public static void fileCopy(Scanner scan) throws Exception {
 		System.out.println("");
 		System.out.print("percorso sorgente => ");
 		String source = scan.next();
@@ -110,7 +110,7 @@ public class Utils {
 	}
 	
 	//Informazioni sul file scelto
-	public static void fileInfo(Scanner scan) {
+	public static void fileInfo(Scanner scan) throws Exception {
 		//scan = new Scanner(System.in);
 		System.out.println("");
 		System.out.println("Percorso del file => ");
@@ -127,7 +127,7 @@ public class Utils {
 	}
 	
 	//sposta un file
-	public static void fileMove(Scanner scan) {
+	public static void fileMove(Scanner scan) throws Exception {
 		System.out.println("");
 		System.out.print("percorso sorgente => ");
 		String source = scan.next();
@@ -155,8 +155,38 @@ public class Utils {
 		continua(scan);
 	}
 	
+	//sposta una cartella
+	public static void moveDir(Scanner scan) throws Exception {
+		System.out.println("");
+		System.out.print("Percorso sorgente => ");
+		String src = scan.next();
+		CustomDir ds = new CustomDir(src);
+		System.out.print("Percorso di destinazione => ");
+		String dest = "";
+		try {
+			dest = scan.next();
+			CustomDir dd = ds.copyDir(dest);
+			if(dd != null) {
+				boolean del = ds.deleteDir();
+				if(del) {
+					System.out.println("La cartella è stata spostata");
+				}
+				else {
+					System.out.println("Errore durante la cancellazione del percorso sorgente. Errore N. "+ds.getError());
+				}
+			}
+			else {
+				System.out.println("Errore durante la copia della cartella Errore N. "+ds.getError());
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		continua(scan);
+	}
+	
 	//leggi il contenuto di una cartella
-	public static void readDir(Scanner scan) {
+	public static void readDir(Scanner scan) throws Exception {
 		System.out.println("");
 		System.out.println("Cartella da aprire => ");
 		String path = scan.next();
@@ -183,7 +213,7 @@ public class Utils {
 	}
 	
 	//leggi il contenuto di un file
-	public static void readFile(Scanner scan) {
+	public static void readFile(Scanner scan) throws Exception {
 		//scan = new Scanner(System.in);
 		System.out.println("");
 		System.out.print("File da aprire => ");
@@ -206,7 +236,7 @@ public class Utils {
 	}
 	
 	//leggi un file binario
-	public static void readFileBinary(Scanner scan) {
+	public static void readFileBinary(Scanner scan) throws Exception {
 		System.out.println("");
 		System.out.println("File da aprire => ");
 		String path = scan.next();
@@ -234,7 +264,7 @@ public class Utils {
 		continua(scan);
 	}
 	
-	public static void writeFile(Scanner scan) {
+	public static void writeFile(Scanner scan) throws Exception {
 		//scan = new Scanner(System.in);
 		System.out.println("");
 		System.out.print("File da aprire in scrittura => ");
@@ -256,7 +286,7 @@ public class Utils {
 		continua(scan);
 	}
 	
-	public static void writeFileBinary(Scanner scan) {
+	public static void writeFileBinary(Scanner scan) throws Exception {
 		System.out.println("");
 		System.out.println("File su cui scrivere => ");
 		String pathOutput = scan.next();

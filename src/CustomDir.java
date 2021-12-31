@@ -14,8 +14,11 @@ public class CustomDir extends File implements DirErrors {
 	private String pathname;
 	private int error;
 
-	public CustomDir(String path) {
+	public CustomDir(String path) throws Exception {
 		super(path);
+		if(this.exists() && !this.isDirectory()){
+			throw new Exception("Il percorso specificato non appartiene ad una cartella");
+		}
 		this.pathname = path;
 		this.error = 0;
 	}
@@ -26,7 +29,7 @@ public class CustomDir extends File implements DirErrors {
 	public void setPathName(String path) {this.pathname = path;}
 	
 	//copia l'attuale cartella in un percorso a scelta
-	public CustomDir copyDir(String dest) throws IOException {
+	public CustomDir copyDir(String dest) throws Exception {
 		System.out.println("Dest => "+dest);
 		CustomDir cdOut = null;
 		this.error = 0;
@@ -59,11 +62,11 @@ public class CustomDir extends File implements DirErrors {
 								if(writed)
 									System.out.println("File copiato");
 								else 
-									System.out.println("Errore durante la copia del file. N. "+cfOut.getError());
+									System.out.println("Errore durante la copia del file. Errore N. "+cfOut.getError());
 								
 							}//if(cfIn.getError() == 0) {
 							else {
-								System.out.println("Errore durante la lettura del file. N. "+cfIn.getError());
+								System.out.println("Errore durante la lettura del file. Errore N. "+cfIn.getError());
 							}
 						}//if(file.isFile()) {
 						else if(file.isDirectory()) {
@@ -82,7 +85,7 @@ public class CustomDir extends File implements DirErrors {
 				}//for(File file : files) {
 			}//if(make) {
 			else {
-				System.out.println("Impossibile creare la cartella N. "+cdOut.getError());
+				System.out.println("Impossibile creare la cartella. Errore N. "+cdOut.getError());
 			}
 		}//if(this.exists()) {
 		else {
@@ -106,7 +109,7 @@ public class CustomDir extends File implements DirErrors {
 	}
 	
 	//cancella una cartella e il contenuto al suo interno
-	public boolean deleteDir() {
+	public boolean deleteDir() throws Exception {
 		boolean ok = false;
 		this.error = 0;
 		if(this.exists()) {

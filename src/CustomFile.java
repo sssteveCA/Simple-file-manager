@@ -27,8 +27,11 @@ public class CustomFile extends File implements FileErrors{
 	private String filename; //nome del file
 	private int error;
 	
-	public CustomFile(String file) {
+	public CustomFile(String file) throws Exception {
 		super(file);
+		if(this.exists() && !this.isFile()) {
+			throw new Exception("Il percorso specificato non appartiene ad un File");
+		}
 		this.filename = file;
 		this.error = 0;
 	}
@@ -38,7 +41,7 @@ public class CustomFile extends File implements FileErrors{
 	public void setFileName(String name) {this.filename = name;}
 	
 	//copia un file e restituisce il puntatore al nuovo file creato
-	public CustomFile copy(String dest) throws IOException {
+	public CustomFile copy(String dest) throws Exception {
 		CustomFile fDest = new CustomFile(dest);
 		this.error = 0;
 		if(this.exists()) {
