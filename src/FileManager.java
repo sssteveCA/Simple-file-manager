@@ -46,6 +46,9 @@ public class FileManager {
 				case "K":
 					Utils.copyDir(scanner);
 					break;
+				case "L":
+					Utils.moveDir(scanner);
+					break;
 				case "ESC":
 					scanner.close();
 					System.exit(0);
