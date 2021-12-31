@@ -2,6 +2,8 @@ import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -120,25 +122,28 @@ public class CustomFile extends File implements FileErrors{
 	}//public String fileContent() throws IOException {
 	
 	//restituisce il contenuto del file binario istanziato
-	public List<byte []> fileContentBinary() throws IOException {
-		List<byte []> binC = null;
-		byte[] fileC = null;
+	public byte[] fileContentBinary() throws IOException {
+		byte[] fileContent = null;
+		ByteArrayOutputStream baos = null;
+		byte[] fileC = null; //buffer che contiene BUFFER_SIZE bytes letti dallo stream di Input
 		this.error = 0;
 		if(this.exists()) {
 			if(this.isFile()) {
 				if(this.canRead()) {
 					long size = this.length();
 					fileC = new byte[BUFFER_SIZE];
-					binC = new ArrayList<>();
+					baos = new ByteArrayOutputStream();
 					FileInputStream fis = new FileInputStream(this);
-					BufferedInputStream bis = new BufferedInputStream(fis,BUFFER_SIZE);
+					BufferedInputStream bis = new BufferedInputStream(fis);
 					InputStream is = bis;
 					while(is.read(fileC) != -1) {
-						binC.add(fileC);
+						baos.write(fileC);
 					}
+					fileContent = baos.toByteArray();
 					is.close();
 					bis.close();
 					fis.close();
+					baos.close();
 				}//if(this.canRead()) {
 				else
 					this.error = FILE_CANTREAD;	
@@ -148,7 +153,7 @@ public class CustomFile extends File implements FileErrors{
 		}//if(this.exists()) {
 		else 
 			this.error = FILE_NOTEXISTS;
-		return binC;
+		return fileContent;
 	}
 	
 	//Informazioni sul file istanziato
@@ -212,7 +217,7 @@ public class CustomFile extends File implements FileErrors{
 	}
 	
 	//scrivi contenuto su un file binario
-	public boolean writeContentBinary(List<byte []> fileC) throws IOException {
+	public boolean writeContentBinary(byte [] fileContent) throws IOException {
 		boolean ok = false;
 		this.error = 0;
 		if(this.exists() && isDirectory()) {
@@ -223,16 +228,20 @@ public class CustomFile extends File implements FileErrors{
 			if(!this.exists()) {
 				this.createNewFile();
 			}
+			byte buffer[] = new byte[BUFFER_SIZE];
+			ByteArrayInputStream bais = new ByteArrayInputStream(fileContent);
+			InputStream is = bais;
 			FileOutputStream fos = new FileOutputStream(this,true);
 			BufferedOutputStream bos = new BufferedOutputStream(fos);
 			OutputStream os = bos;
-			for(int i = 0; i < fileC.size(); i++) {
-				byte[] buf = fileC.get(i);
-				os.write(buf);
+			while(is.read(buffer) != -1) {
+				os.write(buffer);
 			}
 			os.close();
 			bos.close();
 			fos.close();
+			is.close();
+			bais.close();
 			ok = true;
 		}
 		return ok;

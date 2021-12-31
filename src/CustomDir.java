@@ -54,7 +54,7 @@ public class CustomDir extends File implements DirErrors {
 							System.out.println("FILE ");
 							CustomFile cfIn = new CustomFile(srcPath);
 							//Il contenuto del file viene memorizzato in una lista di aray di byte
-							List<byte[]> fileContent = cfIn.fileContentBinary();
+							byte[] fileContent = cfIn.fileContentBinary();
 							if(cfIn.getError() == 0) {
 								//scrivo la lista di byte su il file 'newPath'
 								CustomFile cfOut = new CustomFile(newPath);

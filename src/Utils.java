@@ -1,6 +1,7 @@
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -242,16 +243,10 @@ public class Utils {
 		String path = scan.next();
 		CustomFile cf = new CustomFile(path);
 		try {
-			List<byte []>binC = cf.fileContentBinary();
+			byte[] binC = cf.fileContentBinary();
 			if(binC != null) {
-				ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				for(int j = 0; j < binC.size(); j++) {
-					byte []buf = binC.get(j);
-					baos.write(buf);
-				}
-				String strC = baos.toString();
+				String strC = new String(binC,StandardCharsets.UTF_8);
 				System.out.println(strC);
-				baos.close();
 			}//if(binC != null) {
 			else 
 				System.err.println("Errore durante la lettura del file. N"+cf.getError());
@@ -295,7 +290,7 @@ public class Utils {
 		CustomFile cfOutput = new CustomFile(pathOutput);
 		CustomFile cfInput = new CustomFile(pathInput);
 		try {
-			List <byte []> binaryCont = cfInput.fileContentBinary();
+			byte[] binaryCont = cfInput.fileContentBinary();
 			if(binaryCont != null) {
 				boolean wr = cfOutput.writeContentBinary(binaryCont);
 				if(wr == true) {
